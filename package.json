@@ -1,0 +1,22 @@
+{
+  "name": "folks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node-red --settings settings.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitterulf/folks.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/bitterulf/folks/issues"
+  },
+  "homepage": "https://github.com/bitterulf/folks#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2"
+  }
+}

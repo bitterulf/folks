@@ -1,0 +1,5 @@
+/node_modules/
+/userDir/.sessions.json
+/userDir/flows_*.json
+/userDir/.flows_*.json.backup
+/userDir/.config.json*
