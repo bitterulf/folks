@@ -1,0 +1,322 @@
+[
+    {
+        "id": "afe4995d.cfa4a8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "1e0163b9.6c797c",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "a28b7553.c0ca4",
+        "type": "subflow",
+        "name": "logging",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 320,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "bcbf3d79.4131a8"
+                    }
+                ]
+            }
+        ],
+        "out": []
+    },
+    {
+        "id": "7ce9546.9cc1d2c",
+        "type": "http in",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "url": "/foo",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 240,
+        "wires": [
+            [
+                "50c9f92.3ee4808"
+            ]
+        ]
+    },
+    {
+        "id": "452fdc15.cddb7c",
+        "type": "http response",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 770,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "50c9f92.3ee4808",
+        "type": "http request",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://www.leipzig.de",
+        "tls": "",
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "a3b72fad.7818b"
+            ]
+        ]
+    },
+    {
+        "id": "a3b72fad.7818b",
+        "type": "function",
+        "z": "afe4995d.cfa4a8",
+        "name": "remove slides",
+        "func": "const cheerio = global.get('cheerio');\n\nconst $ = cheerio.load(msg.payload);\n\n// $('.slides').remove();\n\nmsg.payload = $.html();\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 600,
+        "y": 240,
+        "wires": [
+            [
+                "452fdc15.cddb7c"
+            ]
+        ]
+    },
+    {
+        "id": "eedd4bae.8b10d8",
+        "type": "inject",
+        "z": "1e0163b9.6c797c",
+        "name": "",
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 250,
+        "y": 320,
+        "wires": [
+            [
+                "32d7ae04.7be912"
+            ]
+        ]
+    },
+    {
+        "id": "32d7ae04.7be912",
+        "type": "debug",
+        "z": "1e0163b9.6c797c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 420,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "55987de4.d5e42c",
+        "type": "logic",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 490,
+        "y": 380,
+        "wires": [
+            [
+                "56ade4aa.37510c"
+            ],
+            [
+                "32e1d10c.1087fe"
+            ]
+        ]
+    },
+    {
+        "id": "5d97b5bf.f34e2c",
+        "type": "template",
+        "z": "afe4995d.cfa4a8",
+        "name": "status",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head>\n        <title>status</title>\n    </head>\n    <body>\n        status: {{payload.status}}!\n    </body>\n</html>\n",
+        "output": "str",
+        "x": 830,
+        "y": 360,
+        "wires": [
+            [
+                "2100d3f4.9dab64",
+                "ea5e8c88.e0cf9"
+            ]
+        ]
+    },
+    {
+        "id": "5783922a.a5d414",
+        "type": "http in",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "url": "/page/:page",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 380,
+        "wires": [
+            [
+                "6dc6f820.fa019"
+            ]
+        ]
+    },
+    {
+        "id": "6dc6f820.fa019",
+        "type": "change",
+        "z": "afe4995d.cfa4a8",
+        "name": "enrich",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.page",
+                "pt": "msg",
+                "to": "req.params.page",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.command",
+                "pt": "msg",
+                "to": "web",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 380,
+        "wires": [
+            [
+                "55987de4.d5e42c"
+            ]
+        ]
+    },
+    {
+        "id": "2100d3f4.9dab64",
+        "type": "http response",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1130,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "32e1d10c.1087fe",
+        "type": "template",
+        "z": "afe4995d.cfa4a8",
+        "name": "error",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head>\n        <title>status</title>\n    </head>\n    <body>\n        status: error!\n    </body>\n</html>\n",
+        "output": "str",
+        "x": 830,
+        "y": 480,
+        "wires": [
+            [
+                "2100d3f4.9dab64",
+                "ea5e8c88.e0cf9"
+            ]
+        ]
+    },
+    {
+        "id": "56ade4aa.37510c",
+        "type": "switch",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "property": "payload.template",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "status",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 690,
+        "y": 360,
+        "wires": [
+            [
+                "5d97b5bf.f34e2c"
+            ],
+            [
+                "2b687495.27da84"
+            ]
+        ]
+    },
+    {
+        "id": "2b687495.27da84",
+        "type": "template",
+        "z": "afe4995d.cfa4a8",
+        "name": "404",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n    <head>\n        <title>status</title>\n    </head>\n    <body>\n        template not found\n    </body>\n</html>\n",
+        "output": "str",
+        "x": 830,
+        "y": 420,
+        "wires": [
+            [
+                "2100d3f4.9dab64",
+                "ea5e8c88.e0cf9"
+            ]
+        ]
+    },
+    {
+        "id": "ea5e8c88.e0cf9",
+        "type": "subflow:a28b7553.c0ca4",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 1130,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "bcbf3d79.4131a8",
+        "type": "debug",
+        "z": "a28b7553.c0ca4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 500,
+        "y": 140,
+        "wires": []
+    }
+]
