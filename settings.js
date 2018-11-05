@@ -13,5 +13,6 @@ module.exports = {
         cheerio: require('cheerio')
     },
     httpAdminRoot: '/admin',
-    httpStatic: './public'
+    httpStatic: './public',
+    paletteCategories: ['logic', 'subflows', 'input', 'output', 'function', 'social', 'storage', 'analysis', 'advanced'],
 }
