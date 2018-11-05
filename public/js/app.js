@@ -5,8 +5,9 @@ requirejs.config({
     }
 });
 
-requirejs(['m', 'root', 'statusComponent'],
-    function(m, root, statusComponent) {
+requirejs(['/primus/primus.js', 'm', 'root', 'statusComponent'],
+    function(Primus, m, root, statusComponent) {
+        const primus = Primus.connect();
         m.mount(root, statusComponent);
     }
 );

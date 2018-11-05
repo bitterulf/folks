@@ -19,6 +19,7 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "node-red": "^0.19.5",
+    "primus": "^7.2.3",
     "seneca": "^3.7.0"
   }
 }
