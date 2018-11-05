@@ -11,5 +11,7 @@ module.exports = {
     functionGlobalContext: {
         osModule: require('os'),
         cheerio: require('cheerio')
-    }
+    },
+    httpAdminRoot: '/admin',
+    httpStatic: './public'
 }
