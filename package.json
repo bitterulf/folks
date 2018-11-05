@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node-red --settings settings.js"
+    "start": "node start.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
   "homepage": "https://github.com/bitterulf/folks#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "node-red": "^0.19.5",
     "seneca": "^3.7.0"
   }
 }
