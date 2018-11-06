@@ -8,7 +8,6 @@ seneca.add('command:web,page:status', (msg, reply) => {
 })
 
 module.exports = function(RED) {
-    console.log('i see RED', RED.settings.functionGlobalContext.primus);
 
     function Node(config) {
         RED.nodes.createNode(this,config);

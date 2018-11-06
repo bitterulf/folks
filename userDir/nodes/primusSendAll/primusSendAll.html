@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    RED.nodes.registerType('primusSendAll',{
+        category: 'logic',
+        color: '#ff0000',
+        defaults: {
+            name: {value:""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "file.png",
+        label: function() {
+            return this.name||"primusSendAll";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="primusSendAll">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="primusSendAll">
+    <p></p>
+</script>
