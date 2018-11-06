@@ -15,10 +15,6 @@ var server = http.createServer(app);
 
 const primus = new Primus(server, {/* options */});
 
-primus.on('connection', function (spark) {
-    console.log('there is a connection');
-});
-
 // Create the settings object - see default settings.js file for other options
 var settings = {
     userDir: './userDir',

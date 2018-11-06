@@ -132,8 +132,8 @@
         "type": "logic",
         "z": "afe4995d.cfa4a8",
         "name": "",
-        "x": 490,
-        "y": 380,
+        "x": 510,
+        "y": 400,
         "wires": [
             [
                 "56ade4aa.37510c"
@@ -318,5 +318,84 @@
         "x": 500,
         "y": 140,
         "wires": []
+    },
+    {
+        "id": "e8809a04.df2bd",
+        "type": "primusConnect",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 520,
+        "y": 20,
+        "wires": [
+            [
+                "b10ebd07.d66248",
+                "688565c.5907b9c"
+            ]
+        ]
+    },
+    {
+        "id": "b10ebd07.d66248",
+        "type": "debug",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 930,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "688565c.5907b9c",
+        "type": "primusSend",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 930,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "bbd1d74d.3494e",
+        "type": "primusSendAll",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 780,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "e6dcff1f.e791f",
+        "type": "inject",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "bbd1d74d.3494e"
+            ]
+        ]
+    },
+    {
+        "id": "cae4fcd5.278a98",
+        "type": "primusData",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "x": 530,
+        "y": 80,
+        "wires": [
+            [
+                "688565c.5907b9c"
+            ]
+        ]
     }
 ]

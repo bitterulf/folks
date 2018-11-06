@@ -11,6 +11,9 @@ requirejs(['/primus/primus.js', 'm', 'root', 'statusComponent'],
         primus.on('data', function message(data) {
             console.log('message from the server', data);
         });
+        primus.write({
+            message: 'roundtrip'
+        });
         m.mount(root, statusComponent);
     }
 );
