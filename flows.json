@@ -265,7 +265,7 @@
         "checkall": "false",
         "repair": false,
         "outputs": 2,
-        "x": 690,
+        "x": 670,
         "y": 360,
         "wires": [
             [
@@ -327,25 +327,8 @@
         "x": 520,
         "y": 20,
         "wires": [
-            [
-                "b10ebd07.d66248",
-                "688565c.5907b9c"
-            ]
+            []
         ]
-    },
-    {
-        "id": "b10ebd07.d66248",
-        "type": "debug",
-        "z": "afe4995d.cfa4a8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "x": 930,
-        "y": 20,
-        "wires": []
     },
     {
         "id": "688565c.5907b9c",
@@ -361,40 +344,97 @@
         "type": "primusSendAll",
         "z": "afe4995d.cfa4a8",
         "name": "",
-        "x": 780,
-        "y": 180,
+        "x": 940,
+        "y": 120,
         "wires": []
-    },
-    {
-        "id": "e6dcff1f.e791f",
-        "type": "inject",
-        "z": "afe4995d.cfa4a8",
-        "name": "",
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 300,
-        "y": 180,
-        "wires": [
-            [
-                "bbd1d74d.3494e"
-            ]
-        ]
     },
     {
         "id": "cae4fcd5.278a98",
         "type": "primusData",
         "z": "afe4995d.cfa4a8",
         "name": "",
-        "x": 530,
-        "y": 80,
+        "x": 310,
+        "y": 120,
         "wires": [
             [
-                "688565c.5907b9c"
+                "4c88bac4.d5d3ac"
+            ]
+        ]
+    },
+    {
+        "id": "4c88bac4.d5d3ac",
+        "type": "switch",
+        "z": "afe4995d.cfa4a8",
+        "name": "ACTIONS",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "action",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 460,
+        "y": 120,
+        "wires": [
+            [
+                "aab4b17b.2d8098"
+            ]
+        ]
+    },
+    {
+        "id": "aab4b17b.2d8098",
+        "type": "switch",
+        "z": "afe4995d.cfa4a8",
+        "name": "FOO",
+        "property": "payload.name",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "foo",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 590,
+        "y": 120,
+        "wires": [
+            [
+                "87f5db96.200de"
+            ]
+        ]
+    },
+    {
+        "id": "87f5db96.200de",
+        "type": "change",
+        "z": "afe4995d.cfa4a8",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\"type\":\"update\",\"target\":\"map\",\"component\":\"map\",\"data\":[]}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 120,
+        "wires": [
+            [
+                "bbd1d74d.3494e"
             ]
         ]
     }

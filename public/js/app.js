@@ -5,15 +5,31 @@ requirejs.config({
     }
 });
 
-requirejs(['/primus/primus.js', 'm', 'root', 'statusComponent'],
-    function(Primus, m, root, statusComponent) {
-        const primus = Primus.connect();
+requirejs(['/primus/primus.js', 'm', 'root', 'statusComponent', 'mapArea', 'state'],
+    function(Primus, m, root, statusComponent, mapArea, state) {
+        const primus = window.primus = Primus.connect();
         primus.on('data', function message(data) {
             console.log('message from the server', data);
+            if (data.type === 'update') {
+                state[data.target] = {
+                    component: data.component,
+                    data: data.data
+                };
+            }
+            m.redraw();
         });
         primus.write({
             message: 'roundtrip'
         });
-        m.mount(root, statusComponent);
+
+        const App = {
+            view: function() {
+                return [
+                    m(mapArea)
+                ];
+            }
+        }
+
+        m.mount(root, App);
     }
 );

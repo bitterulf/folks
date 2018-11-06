@@ -1,5 +1,5 @@
-define(['m'],
-    function(m) {
+define(['m', 'state'],
+    function(m, state) {
         const statusComponent = {
             oninit: function(vnode) {
                 const data = this.data = {};
@@ -13,6 +13,7 @@ define(['m'],
                 })
             },
             view: function() {
+                console.log('what a state', state);
                 return m('main', [
                     m('h1', 'status'),
                     m('div', m.trust(this.data.status || ''))
