@@ -2,6 +2,8 @@ var http = require('http');
 var express = require('express');
 var RED = require('node-red');
 const Primus = require('primus');
+const Datastore = require('nedb');
+const db = new Datastore();
 
 // Create an Express app
 var app = express();
@@ -29,7 +31,8 @@ var settings = {
     functionGlobalContext: {
         osModule: require('os'),
         cheerio: require('cheerio'),
-        primus: primus
+        primus: primus,
+        db: db,
     },
     httpAdminRoot: '/admin',
     httpNodeRoot: '/api',

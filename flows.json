@@ -9,7 +9,7 @@
     {
         "id": "1e0163b9.6c797c",
         "type": "tab",
-        "label": "Flow 2",
+        "label": "REACTION",
         "disabled": false,
         "info": ""
     },
@@ -57,7 +57,7 @@
         "statusCode": "",
         "headers": {},
         "x": 770,
-        "y": 240,
+        "y": 280,
         "wires": []
     },
     {
@@ -94,26 +94,6 @@
         ]
     },
     {
-        "id": "eedd4bae.8b10d8",
-        "type": "inject",
-        "z": "1e0163b9.6c797c",
-        "name": "",
-        "topic": "",
-        "payload": "{}",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 250,
-        "y": 320,
-        "wires": [
-            [
-                "32d7ae04.7be912"
-            ]
-        ]
-    },
-    {
         "id": "32d7ae04.7be912",
         "type": "debug",
         "z": "1e0163b9.6c797c",
@@ -123,8 +103,8 @@
         "console": false,
         "tostatus": false,
         "complete": "false",
-        "x": 420,
-        "y": 320,
+        "x": 1010,
+        "y": 440,
         "wires": []
     },
     {
@@ -344,7 +324,7 @@
         "type": "primusSendAll",
         "z": "afe4995d.cfa4a8",
         "name": "",
-        "x": 940,
+        "x": 980,
         "y": 120,
         "wires": []
     },
@@ -353,8 +333,8 @@
         "type": "primusData",
         "z": "afe4995d.cfa4a8",
         "name": "",
-        "x": 310,
-        "y": 120,
+        "x": 90,
+        "y": 60,
         "wires": [
             [
                 "4c88bac4.d5d3ac"
@@ -378,8 +358,8 @@
         "checkall": "false",
         "repair": false,
         "outputs": 1,
-        "x": 460,
-        "y": 120,
+        "x": 240,
+        "y": 60,
         "wires": [
             [
                 "aab4b17b.2d8098"
@@ -403,8 +383,8 @@
         "checkall": "false",
         "repair": false,
         "outputs": 1,
-        "x": 590,
-        "y": 120,
+        "x": 370,
+        "y": 60,
         "wires": [
             [
                 "87f5db96.200de"
@@ -430,11 +410,298 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 750,
-        "y": 120,
+        "x": 530,
+        "y": 60,
+        "wires": [
+            [
+                "7fe28511.b17d4c"
+            ]
+        ]
+    },
+    {
+        "id": "b73f495e.2e26a",
+        "type": "function",
+        "z": "afe4995d.cfa4a8",
+        "name": "DB",
+        "func": "const db = global.get('db');\n\ndb.find({}, function (err, docs) {\n    node.send({\n        payload: {\n            type: 'dbUpdate',\n            entrys: docs\n        }\n    });\n});\n\nreturn;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 790,
+        "y": 160,
         "wires": [
             [
                 "bbd1d74d.3494e"
+            ]
+        ]
+    },
+    {
+        "id": "7fe28511.b17d4c",
+        "type": "function",
+        "z": "afe4995d.cfa4a8",
+        "name": "write payload to DB",
+        "func": "const db = global.get('db');\n\ndb.insert(msg.payload, function (err, docs) {\n    node.send({});\n});\n\nreturn;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 570,
+        "y": 160,
+        "wires": [
+            [
+                "b73f495e.2e26a"
+            ]
+        ]
+    },
+    {
+        "id": "2684c04c.03f3f8",
+        "type": "inject",
+        "z": "1e0163b9.6c797c",
+        "name": "add item",
+        "topic": "",
+        "payload": "{\"type\":\"addItem\",\"name\":\"sword\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "49e497a6.803c78"
+            ]
+        ]
+    },
+    {
+        "id": "49e497a6.803c78",
+        "type": "switch",
+        "z": "1e0163b9.6c797c",
+        "name": "actions",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "addItem",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "removeItem",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "removeAll",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 200,
+        "y": 200,
+        "wires": [
+            [
+                "c9cee4d.9279098"
+            ],
+            [
+                "48e6c708.2dbc5"
+            ],
+            [
+                "60283236.0c3ecc"
+            ]
+        ]
+    },
+    {
+        "id": "c9cee4d.9279098",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "addItem",
+        "func": "msg.payload = {\n    type: 'dbInsert',\n    data: {\n        type: 'item',\n        name: msg.payload.name\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 360,
+        "y": 80,
+        "wires": [
+            [
+                "5661f21b.3cb054"
+            ]
+        ]
+    },
+    {
+        "id": "5661f21b.3cb054",
+        "type": "switch",
+        "z": "1e0163b9.6c797c",
+        "name": "execute",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "dbInsert",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "dbRemove",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 500,
+        "y": 180,
+        "wires": [
+            [
+                "6dea1455.32b5d4"
+            ],
+            [
+                "b2102b78.e4cec8"
+            ]
+        ]
+    },
+    {
+        "id": "6dea1455.32b5d4",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "dbInsert",
+        "func": "const db = global.get('db');\n\ndb.insert(msg.payload.data, function (err, docs) {\n    if (msg.payload.data.type === 'item') {\n        node.send({\n            payload: {\n                type: 'itemDbChanged'\n            }\n        });\n    }\n});\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 180,
+        "wires": [
+            [
+                "dcda39f7.e494d8"
+            ]
+        ]
+    },
+    {
+        "id": "dcda39f7.e494d8",
+        "type": "switch",
+        "z": "1e0163b9.6c797c",
+        "name": "notificatons",
+        "property": "payload.type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "itemDbChanged",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 810,
+        "y": 180,
+        "wires": [
+            [
+                "dc09b1ee.0ca87"
+            ]
+        ]
+    },
+    {
+        "id": "48e6c708.2dbc5",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "removeItem",
+        "func": "msg.payload = {\n    type: 'dbRemove',\n    data: {\n        type: 'item',\n        id: msg.payload.id\n    }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 350,
+        "y": 140,
+        "wires": [
+            [
+                "5661f21b.3cb054"
+            ]
+        ]
+    },
+    {
+        "id": "b2102b78.e4cec8",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "dbRemove",
+        "func": "const db = global.get('db');\n\ndb.remove({ _id: msg.payload.data.id, type: msg.payload.data.type }, function (err, numRemoved) {\n    if (numRemoved) {\n        if (msg.payload.data.type === 'item') {\n            node.send({\n                payload: {\n                    type: 'itemDbChanged'\n                }\n            });\n        }\n    }\n});\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "dcda39f7.e494d8"
+            ]
+        ]
+    },
+    {
+        "id": "947189f2.7f4cf8",
+        "type": "inject",
+        "z": "1e0163b9.6c797c",
+        "name": "remove item",
+        "topic": "",
+        "payload": "{\"type\":\"removeItem\",\"id\":\"K7BSLhsZzX0UqDmu\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 90,
+        "y": 280,
+        "wires": [
+            [
+                "49e497a6.803c78"
+            ]
+        ]
+    },
+    {
+        "id": "dc09b1ee.0ca87",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "pushItems",
+        "func": "const db = global.get('db');\n\ndb.find({ type: 'item' }, function (err, docs) {\n    node.send({\n        payload: docs\n    });\n});\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 990,
+        "y": 180,
+        "wires": [
+            [
+                "32d7ae04.7be912"
+            ]
+        ]
+    },
+    {
+        "id": "6bdd7b3.296d884",
+        "type": "inject",
+        "z": "1e0163b9.6c797c",
+        "name": "remove all",
+        "topic": "",
+        "payload": "{\"type\":\"removeAll\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 80,
+        "y": 340,
+        "wires": [
+            [
+                "49e497a6.803c78"
+            ]
+        ]
+    },
+    {
+        "id": "60283236.0c3ecc",
+        "type": "function",
+        "z": "1e0163b9.6c797c",
+        "name": "dbClean",
+        "func": "const db = global.get('db');\n\ndb.remove({}, { multi: true }, function (err, numRemoved) {\n    if (numRemoved) {\n        node.send({\n            payload: {\n                type: 'itemDbChanged'\n            }\n        });\n    }\n});\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 640,
+        "y": 280,
+        "wires": [
+            [
+                "dcda39f7.e494d8"
             ]
         ]
     }
