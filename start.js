@@ -1,3 +1,6 @@
+require('dotenv').config();
+const isProduction = !process.env.DEV;
+
 var http = require('http');
 var express = require('express');
 var RED = require('node-red');
@@ -38,6 +41,8 @@ var settings = {
     httpNodeRoot: '/api',
     httpStatic: './public',
     paletteCategories: ['logic', 'subflows', 'input', 'output', 'function', 'social', 'storage', 'analysis', 'advanced'],
+    flowFile: isProduction ? './flows.json' : null,
+    disableEditor: isProduction ? true : false
 };
 
 RED.init(server,settings);
